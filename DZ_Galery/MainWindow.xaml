@@ -11,6 +11,7 @@
             <Setter Property="Margin" Value="5"/>
         </Style>
         <local:BitmapConverter x:Key="BitmapConverter"></local:BitmapConverter>
+        
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,17 +30,14 @@
 			Grid.ColumnSpan="2"
 			Height="60">
             <Button Name="ButtonOpen" Click="ButtonOpen_Click">
-                <Image
-					Source="/images/openfolder.png" />
+                <Image Source="/images/openfolder.png" />
             </Button>
             <Separator />
-            <Button>
-                <Image
-					Source="/images/left.png" />
+            <Button Name="ButtonPrev" Click="ButtonPrev_Click">
+                <Image Source="/images/left.png" />
             </Button>
-            <Button>
-                <Image
-					Source="/images/right.png" />
+            <Button Name="ButtonNext" Click="ButtonNext_Click">
+                <Image Source="/images/right.png" />
             </Button>
             <Separator />
             <Slider
@@ -59,7 +57,7 @@
             </Slider>
             <Separator />
             <StackPanel VerticalAlignment="Center">
-                <ProgressBar Name="ProgressBar1" Width="200" Height="15">
+                <ProgressBar Name="ProgressBar1" Width="200" Height="15" Value="{Binding Path=ProgressValue}">
                 </ProgressBar>
                 <TextBlock Text="Open progress..." HorizontalAlignment="Center"/>
             </StackPanel>
@@ -67,7 +65,8 @@
         <ListView Name="ListViewImages"
 				Grid.Column="0"
 				Grid.RowSpan="2"
-				Grid.Row="1">
+				Grid.Row="1"
+                SelectionChanged="ListViewImages_SelectionChanged">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel/>
@@ -85,5 +84,28 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Orientation="Vertical">
+            <Image Name="ImageOpened"></Image>
+            <Expander Name="ExpMetadata" ExpandDirection="Down" MinHeight="30">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Taken data:" />
+                    <TextBlock Name="TbTakenData"
+                               Grid.Column="1" Grid.Row="0"/>
+                    <TextBlock Text=""
+                               Grid.Column="0" Grid.Row="1"/>
+                    <TextBlock Text=""
+                               Grid.Column="1" Grid.Row="1"/>
+                    
+                </Grid>
+            </Expander>
+        </StackPanel>
     </Grid>
 </Window>

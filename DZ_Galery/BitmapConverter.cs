@@ -40,7 +40,7 @@ namespace DZ_Galery
                 };
                 using (Bitmap bitmap = new Bitmap(img, size))
                 {
-
+                    MainWindow.ProgressValue++;
                     //ProgressBar1.Value++;
                     return Imaging.CreateBitmapSourceFromHBitmap(
                         bitmap.GetHbitmap(),

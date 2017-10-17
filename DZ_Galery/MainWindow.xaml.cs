@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Interop;
 
 namespace DZ_Galery
 {
@@ -28,10 +29,12 @@ namespace DZ_Galery
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<Image> Images;
+        public List<Image> Images { set; get; }
+        public static int ProgressValue { set; get; }
         public MainWindow()
         {
             InitializeComponent();
+            ProgressValue = 0;
         }
         void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
@@ -45,12 +48,13 @@ namespace DZ_Galery
                     FileInfo[] fi = dir.GetFiles(ext);
                     Files.AddRange(fi);
                 }
+                ProgressBar1.Maximum = Files.Count;
                 Images = new List<Image>();
                 try
                 {
                     foreach (FileInfo fi in Files)
                     {
-                        BitmapMetadata meta;
+                        BitmapMetadata meta= new BitmapMetadata("jpg");
                         using (FileStream fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
                             meta = (BitmapMetadata)BitmapFrame.Create(fs).Metadata;
@@ -61,15 +65,51 @@ namespace DZ_Galery
                                 FileInfo = fi,
                                 Metadata = meta
                             });
+                        ProgressValue++;
                     }
                 }
                 catch (Exception ex)
                 {
                     System.Windows.MessageBox.Show(ex.Message);
                 }
-                ProgressBar1.Value = 0;
-                ProgressBar1.Maximum = Images.Count;
+                //ProgressValue = 0;
+                //ProgressBar1.Maximum = Images.Count;
+                //((Image)ListViewImages.SelectedItem).FileInfo
                 ListViewImages.ItemsSource = Images;
+            }
+        }
+
+        private void ListViewImages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (System.Drawing.Image img = System.Drawing.Image.FromFile(Images[ListViewImages.SelectedIndex].FileInfo.FullName, true))
+            {
+                using (Bitmap bitmap = new Bitmap(img))
+                {
+                    ImageOpened.Source = Imaging.CreateBitmapSourceFromHBitmap(
+                        bitmap.GetHbitmap(),
+                        IntPtr.Zero,
+                        Int32Rect.Empty,
+                        BitmapSizeOptions.FromEmptyOptions()
+                    );
+                }
+            }
+            TbTakenData.Text = Images[ListViewImages.SelectedIndex].Metadata.DateTaken;
+        }
+
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+            if(ListViewImages.SelectedIndex<ListViewImages.Items.Count)
+            {
+                ListViewImages.SelectedIndex++;
+            }
+            //Images[ListViewImages.SelectedIndex].Metadata.DateTaken
+        }
+
+        private void ButtonPrev_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListViewImages.SelectedIndex > 0)
+            {
+                ListViewImages.SelectedIndex--;
             }
         }
     }
