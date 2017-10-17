@@ -34,7 +34,7 @@ namespace DZ_Galery
         public MainWindow()
         {
             InitializeComponent();
-            ProgressValue = 0;
+            //ProgressValue = 0;
         }
         void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
@@ -54,7 +54,7 @@ namespace DZ_Galery
                 {
                     foreach (FileInfo fi in Files)
                     {
-                        BitmapMetadata meta= new BitmapMetadata("jpg");
+                        BitmapMetadata meta;
                         using (FileStream fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
                             meta = (BitmapMetadata)BitmapFrame.Create(fs).Metadata;
@@ -65,7 +65,7 @@ namespace DZ_Galery
                                 FileInfo = fi,
                                 Metadata = meta
                             });
-                        ProgressValue++;
+                        //ProgressValue++;
                     }
                 }
                 catch (Exception ex)
@@ -76,6 +76,7 @@ namespace DZ_Galery
                 //ProgressBar1.Maximum = Images.Count;
                 //((Image)ListViewImages.SelectedItem).FileInfo
                 ListViewImages.ItemsSource = Images;
+                
             }
         }
 
