@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: sergey.lezhenko
  * Date: 12.10.2017
@@ -113,5 +113,11 @@ namespace DZ_Galery
                 ListViewImages.SelectedIndex--;
             }
         }
+		void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			ImageOpened.
+			slider.Value;
+			
+		}
     }
 }
