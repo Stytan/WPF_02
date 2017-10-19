@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: sergey.lezhenko
  * Date: 10/17/2017
@@ -8,7 +8,6 @@
  */
 using System;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Data;
@@ -19,7 +18,7 @@ using System.Windows.Media.Imaging;
 namespace DZ_Galery
 {
     /// <summary>
-    /// Description of BitmapConverter.
+    /// Конвертирует FileInfo в BitmapSource
     /// </summary>
     public class BitmapConverter : IValueConverter
     {
@@ -31,17 +30,23 @@ namespace DZ_Galery
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+        	//Читаем Image из файла
             using (System.Drawing.Image img = System.Drawing.Image.FromFile(((FileInfo)value).FullName, true))
             {
+            	//Задаём размер уменьшенной картинки
                 System.Drawing.Size size = new System.Drawing.Size
                 {
                     Height = (int)(((double)img.Size.Height / img.Size.Width) * 160),
                     Width = 160
                 };
+                //Создаём из Image Bitmap уменьшенного размера
                 using (Bitmap bitmap = new Bitmap(img, size))
                 {
-                    MainWindow.ProgressValue++;
-                    //ProgressBar1.Value++;
+                	//Пытаемся изменить значение ProgressBar - почемуто не работает
+                    MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+					mainWindow.UpdateProgress(1);
+					mainWindow.ProgressBar1.InvalidateVisual();
+					//Возвращаем BitmapSourse для привязки
                     return Imaging.CreateBitmapSourceFromHBitmap(
                         bitmap.GetHbitmap(),
                         IntPtr.Zero,
