@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: sergey.lezhenko
  * Date: 10/17/2017
@@ -9,12 +9,11 @@
 using System;
 using System.IO;
 using System.Windows.Media.Imaging;
-using System.Drawing.Imaging;
 
 namespace DZ_Galery
 {
     /// <summary>
-    /// Description of Images.
+    /// Хранит информацию о файле картинки и его метаданные
     /// </summary>
     public class Image
     {
