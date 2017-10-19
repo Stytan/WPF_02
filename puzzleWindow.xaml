@@ -1,0 +1,22 @@
+<Window x:Class="Puzzle15.Window1"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="Puzzle15" Height="300" Width="300"
+	>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Image Name="i1"></Image>
+		<Image Name="i2"></Image>
+	</Grid>
+</Window>
